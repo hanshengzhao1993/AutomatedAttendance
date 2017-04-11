@@ -61,6 +61,9 @@ app.post('/kairosGalleryRecognize', kairos.recognize);
 
 app.post('/getStudentData', search.querySelector, search.queryDatabase);
 
+// // trying to get all users
+// app.post('/getAllUsers', search.queryAllStudents);
+
 
 /*****************/
 /**** Twillio ****/
@@ -72,7 +75,7 @@ app.post('/twilioMessage', twilio.twilioMessage);
 /**** MailGun ****/
 /*****************/
 
-app.post('/emailMessage', mailgun);
+app.post('/emailStudents', search.getListOfUsers, mailGun.sendMail);
 
 /******************/
 /**** Wildcard ****/
