@@ -14,7 +14,14 @@ import search from './db/search.js';
 import studentHelpers from './db/studentHelpers.js';
 import fileUpload from 'express-fileupload';
 import user from './db/userHelpers';
-import twilio from './twillio/twillioHelper';
+import twilio from './twilio/twilioHelper';
+import mailGun from './mailgun/mailGunHelpers';
+
+
+const api_key = process.env.MAILGUN_API_KEY;
+  const domain = process.env.MAILGUN_DOMAIN;
+  const mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+
 
 const app = express();
 
@@ -66,6 +73,31 @@ app.post('/getStudentData', search.querySelector, search.queryDatabase);
 /*****************/
 
 app.post('/twilioMessage', twilio.twilioMessage);
+
+/*****************/
+/**** MailGun ****/
+/*****************/
+
+app.post('/emailMessage', function (req, res) {
+  // const api_key = process.env.MAILGUN_API_KEY;
+  // const domain = process.env.MAILGUN_DOMAIN;
+  // const mailgun = require('maingun-js')({apiKey: api_key, domain: domain});
+   
+  var data = {
+    from: 'Excited User <aaallstars15@gmail.com>',
+    to: 'hanshengzhao1993@gmail.com',
+    subject: 'Hello Again',
+    text: 'Testing some emails again'
+  };
+   
+  mailgun.messages().send(data, function (error, body) {
+    if(error){
+      console.log(error)
+    } else {
+      console.log(body);
+    }
+  });
+})
 
 /******************/
 /**** Wildcard ****/
