@@ -96,6 +96,14 @@ export default class CameraPage extends React.Component {
           { this.state.screenshot ? <img src={this.state.screenshot} /> : null }
         </div>
 
+        <div className="btn-group">
+          <button data-toggle="dropdown" className="btn dropdown-toggle"  data-placeholder="Please select">Checked option <span className="caret"></span></button>
+            <ul className="dropdown-menu">
+              <li><input type="checkbox" id="ID"/><label for="ID" name="NAME" value="VALUE">Label</label></li>
+            </ul>
+        </div>
+
+
       </div>
     );
   }
