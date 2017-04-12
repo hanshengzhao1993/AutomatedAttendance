@@ -7,6 +7,7 @@ import { queryGallery } from './requests/gallery';
 import { getClasses } from './requests/classes';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
+import { getStudentInCertainClasses } from './requests/attendancerecord';
 
 
 export default class CameraPage extends React.Component {
@@ -18,7 +19,8 @@ export default class CameraPage extends React.Component {
     'getSelectOptions',
     'handleSelectChange',
     'toggleDisabled',
-    'testBundle'].forEach((method) => {
+    'testBundle',
+    'populateAttendanceRecord'].forEach((method) => {
       this[method] = this[method].bind(this);
     });
 
@@ -69,6 +71,10 @@ export default class CameraPage extends React.Component {
     this.setState(classes);
   }
 
+  async populateAttendanceRecord () {
+    const student = await getStudentInCertainClasses(this.state.value);
+  }
+
   render() {
     return (
       <div>
@@ -95,12 +101,9 @@ export default class CameraPage extends React.Component {
           <button className="screenShotButton" onClick={this.takeScreenshot}>Take Screenshot</button>
           { this.state.screenshot ? <img src={this.state.screenshot} /> : null }
         </div>
-
-        <div className="btn-group">
-          <button data-toggle="dropdown" className="btn dropdown-toggle"  data-placeholder="Please select">Checked option <span className="caret"></span></button>
-            <ul className="dropdown-menu">
-              <li><input type="checkbox" id="ID"/><label for="ID" name="NAME" value="VALUE">Label</label></li>
-            </ul>
+        
+        <div>
+          <button className="populateAttendanceRecord" onClick={this.populateAttendanceRecord}> Populate Attendance Records </button>
         </div>
 
 
