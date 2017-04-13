@@ -90,22 +90,22 @@ module.exports = function(db) {
       VALUES ((SELECT classes_id FROM classes WHERE class_name='HRSF76'),
       (SELECT users_id FROM users WHERE user_name='Duy12312313'));`);
   })
-  .then(function() {
-    return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
-      VALUES ('On time', (SELECT users_id FROM users WHERE email='hanshengzhao1993@gmail.com'));`);
-  })
-  .then(function() {
-    return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
-      VALUES ('On time', (SELECT users_id FROM users WHERE email='andrew@gmail.com'));`);
-  })
-  .then(function() {
-    return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
-      VALUES ('Tardy', (SELECT users_id FROM users WHERE email='jciphone333@gmail.com'));`);
-  })
-  .then(function() {
-    return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
-      VALUES ('absent', (SELECT users_id FROM users WHERE user_name='Duy12312313'));`);
-  })
+  // .then(function() {
+  //   return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
+  //     VALUES ('On time', (SELECT users_id FROM users WHERE email='hanshengzhao1993@gmail.com'));`);
+  // })
+  // .then(function() {
+  //   return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
+  //     VALUES ('On time', (SELECT users_id FROM users WHERE email='andrew@gmail.com'));`);
+  // })
+  // .then(function() {
+  //   return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
+  //     VALUES ('Tardy', (SELECT users_id FROM users WHERE email='jciphone333@gmail.com'));`);
+  // })
+  // .then(function() {
+  //   return db.queryAsync(`INSERT INTO attendance_record(status, user_id)
+  //     VALUES ('absent', (SELECT users_id FROM users WHERE user_name='Duy12312313'));`);
+  // })
   .error(function(err) {
     console.log(err);
   });
