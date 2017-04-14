@@ -59,7 +59,7 @@ module.exports = function(db) {
   //   return db.queryAsync(`INSERT INTO users (user_name, first_name, last_name, email) VALUES ('andrewaaalonis', 'Andrew', 'Alonis', 'andrew@gmail.com');`);
   // })
   // .then(function() {
-  //   return db.queryAsync(`INSERT INTO users (user_name, first_name, last_name, email) VALUES ('Duy12312313', 'Duy', 'Nguyen', 'duyng92@gmail.com');`);
+  //   return db.queryAsync(`INSERT INTO users (user_name, first_name, last_name, email) VALUES ('nguyenaiden', 'Duy', 'Nguyen', 'nguyenaiden@gmail.com');`);
   // })
   // .then(function() {
   //   return db.queryAsync(`INSERT INTO users (user_name, first_name, last_name, email) VALUES ('jukejc', 'Jason', 'Chambers', 'jciphone333@gmail.com');`);
