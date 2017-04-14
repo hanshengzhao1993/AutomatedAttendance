@@ -19,6 +19,7 @@ import user from './db/userHelpers';
 import twilio from './twilio/twilioHelper';
 import mailGun from './mailgun/mailGunHelpers';
 import remove from './db/delete.js';
+import update from './db/update.js'
 
 
 
@@ -59,7 +60,7 @@ app.post('/studentUpload', cloud.upload, studentHelpers.addToClass, kairos.store
 app.get('/galleryLists', kairos.test);
 app.get('/galleryRemove/:galleryName', kairos.testGalleryRemove);
 app.get('/usersInGallery/:galleryName', kairos.testGalleryList);
-app.post('/kairosGalleryRecognize', cloud.upload, kairos.recognize, search.getSpecificUser, mailGun.sendMailForArrival);
+app.post('/kairosGalleryRecognize', cloud.upload, kairos.recognize, search.getSpecificUser, update.checkInUserOnTime, mailGun.sendMailForArrival);
 
 
 /******************/
