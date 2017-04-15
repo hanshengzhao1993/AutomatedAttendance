@@ -10,15 +10,15 @@ exports.sendMailLate = (req, res) => {
       text: '1 minutes till class starts! Email communication@ if you are going to be late.'
     };
     
-    mailgun.messages().send(data, function (error, body) {
-      if (error) {
-        res.status(500).send(error);
-        return;
-        console.log(error);
-      } else {
-        console.log(body);
-      }
-    });
+    // mailgun.messages().send(data, function (error, body) {
+    //   if (error) {
+    //     res.status(500).send(error);
+    //     return;
+    //     console.log(error);
+    //   } else {
+    //     console.log(body);
+    //   }
+    // });
   });
 };
   
@@ -32,7 +32,7 @@ exports.sendMailForArrival = async (req, res) => {
         subject: 'Class Arrival',
         text: 'Welcome to class! You have checked in today!'
       };
-      mailgun.messages().send(data);
+      // mailgun.messages().send(data);
     });
     res.send(req.body.matches);
   } catch (err) {
@@ -50,9 +50,9 @@ exports.emailAbsentPeople = async (req, res) => {
         subject: 'Absent',
         text: 'You are absent from class today!'
       };
-      mailgun.messages().send(data, function (error, body) {
-        console.log(body);
-      });
+      // mailgun.messages().send(data, function (error, body) {
+      //   console.log(body);
+      // });
     });
     res.send('Checked in users.');
   } catch (err) {
