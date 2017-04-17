@@ -3,17 +3,40 @@ import { Link } from 'react-router-dom';
 import { getAttendanceRecords } from './requests/classes';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import tableHelpers from './helpers/tableHelpers.js'
+import Select from 'react-select';
+import Spinner from './Spinner';
+import 'react-select/dist/react-select.css';
+import 'react-widgets/lib/less/react-widgets.less';
+import DateTime from 'react-widgets/lib/DateTimePicker';
+import Moment from 'moment';
+import momentLocalizer from 'react-widgets/lib/localizers/moment';
+import { storeAttendanceRecord, emailLateStudents } from './requests/students';
+import MomentTZ from 'moment-timezone';
+
+momentLocalizer(Moment);
 
 export default class Admin extends React.Component {
   constructor(props) {
     super(props);
+
+    ['updateSelectedTimeCutoff'].forEach((method) => {
+      this[method] = this[method].bind(this);
+    });
+
+
     this.state = {
       attendance: [],
       classes: {},
       students: {},
       emails: {},
+      selectedTimeCutoff: null,
       statuses: {}
     };
+  }
+
+  updateSelectedTimeCutoff(e) {
+    let date = MomentTZ.tz(new Date(e), "America/Los_angeles").format();
+    this.setState({ selectedTimeCutoff: date });
   }
 
   async componentWillMount() {
@@ -54,6 +77,12 @@ export default class Admin extends React.Component {
   render() {
     return (
       <div>
+
+        <DateTime 
+          defaultValue={new Date()}
+          onChange={this.updateSelectedTimeCutoff}
+        />
+
         <BootstrapTable
           data = {this.state.attendance}
           csvFileName = {'Attendance.csv'}
