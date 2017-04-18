@@ -13,6 +13,7 @@ import Moment from 'moment';
 import momentLocalizer from 'react-widgets/lib/localizers/moment';
 import { storeAttendanceRecord, emailLateStudents } from './requests/students';
 import MomentTZ from 'moment-timezone';
+import moment from 'moment';
 
 // init time localization for DateTimePicker
 momentLocalizer(Moment);
@@ -87,8 +88,9 @@ export default class CameraPage extends React.Component {
   }
 
   updateSelectedTimeCutoff(e) {
-    let date = MomentTZ.tz(new Date(e), "America/Los_angeles").format();
-    this.setState({ selectedTimeCutoff: date });
+    // let date = moment(e);
+    // console.log(typeof date, date, date.format('h:mm'));
+    this.setState({ selectedTimeCutoff: e });
   }
   async sendLateEmails () {
     await emailLateStudents(this.state.selectedTimeCutoff);
