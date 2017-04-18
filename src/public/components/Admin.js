@@ -1,88 +1,76 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getAttendanceRecords } from './requests/classes';
+import { getAttendanceRecords, getAttendanceRecordDate } from './requests/classes';
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import tableHelpers from './helpers/tableHelpers.js'
-import Select from 'react-select';
-import Spinner from './Spinner';
-import 'react-select/dist/react-select.css';
-import 'react-widgets/lib/less/react-widgets.less';
-import DateTime from 'react-widgets/lib/DateTimePicker';
-import Moment from 'moment';
-import momentLocalizer from 'react-widgets/lib/localizers/moment';
-import { storeAttendanceRecord, emailLateStudents } from './requests/students';
-import MomentTZ from 'moment-timezone';
-
-momentLocalizer(Moment);
+import moment from 'moment';
 
 export default class Admin extends React.Component {
   constructor(props) {
     super(props);
-
-    ['updateSelectedTimeCutoff'].forEach((method) => {
-      this[method] = this[method].bind(this);
-    });
-
-
     this.state = {
       attendance: [],
       classes: {},
       students: {},
       emails: {},
-      selectedTimeCutoff: null,
       statuses: {}
     };
   }
 
-  updateSelectedTimeCutoff(e) {
-    let date = MomentTZ.tz(new Date(e), "America/Los_angeles").format();
-    this.setState({ selectedTimeCutoff: date });
+
+  async deleteRecord() {
+    const date = new Date();
+    const momentDay = moment().format("YYYY-MM-DD");
+    await getAttendanceRecordDate({date: momentDay});
   }
 
-  async componentWillMount() {
-    const queryType = {queryType: 'allAttendance'};
-    const attendanceRecords = await getAttendanceRecords(queryType);      
-    attendanceRecords.forEach((item) => {
-      item.date = tableHelpers.parseDateAndTime(item.date);
-      if (!this.state.classes[item.class_name]) {
-        let thisClass = this.state.classes;
-        thisClass[item.class_name] = item.class_name;
-        this.setState({
-          classes: thisClass
-        });
-      }
-      if (!this.state.statuses[item.status]) {
-        let thisStatus = this.state.statuses;
-        thisStatus[item.status] = item.status;
-        this.setState({
-          statuses: thisStatus
-        });
-      }
-      let fullName = `${item.first_name} ${item.last_name}`;
-      item.full_name = fullName;
-      if (!this.state.emails[item.email]) {
-        let thisEmail = this.state.emails;
-        let thisStudent = this.state.students;
-        thisEmail[item.email] = item.email;
-        thisStudent[fullName] = fullName;
-        this.setState({
-          emails: thisEmail,
-          students: thisStudent
-        });
-      }
-    });
-    this.setState({attendance: attendanceRecords});
+  async getTableData () {
+    console.log('updating the table');
+      const queryType = {queryType: 'allAttendance'};
+      const attendanceRecords = await getAttendanceRecords(queryType);  
+      attendanceRecords.forEach((item) => {
+        item.date = tableHelpers.parseDateAndTime(item.date);
+        if (!this.state.classes[item.class_name]) {
+          let thisClass = this.state.classes;
+          thisClass[item.class_name] = item.class_name;
+          this.setState({
+            classes: thisClass
+          });
+        }
+        if (!this.state.statuses[item.status]) {
+          let thisStatus = this.state.statuses;
+          thisStatus[item.status] = item.status;
+          this.setState({
+            statuses: thisStatus
+          });
+        }
+        let fullName = `${item.first_name} ${item.last_name}`;
+        item.full_name = fullName;
+        if (!this.state.emails[item.email]) {
+          let thisEmail = this.state.emails;
+          let thisStudent = this.state.students;
+          thisEmail[item.email] = item.email;
+          thisStudent[fullName] = fullName;
+          this.setState({
+            emails: thisEmail,
+            students: thisStudent
+          });
+        }
+      });
+      this.setState({attendance: attendanceRecords});
+  }
+
+  componentWillMount() {
+    this.getTableData();
+
+    setInterval( ()=> {
+      this.getTableData();
+    }, 30000);
   }
 
   render() {
     return (
       <div>
-
-        <DateTime 
-          defaultValue={new Date()}
-          onChange={this.updateSelectedTimeCutoff}
-        />
-
         <BootstrapTable
           data = {this.state.attendance}
           csvFileName = {'Attendance.csv'}
@@ -154,6 +142,11 @@ export default class Admin extends React.Component {
             Status
           </TableHeaderColumn>
         </BootstrapTable>
+
+        <div>          
+          <button className="deleteRecord" onClick={this.deleteRecord.bind(this)}>Delete Record</button>
+        </div>
+
       </div>
     );
   }
