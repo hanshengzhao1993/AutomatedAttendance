@@ -28,6 +28,7 @@ exports.addToClass = async (req, res) => {
       res.sendStatus(204);
     }
   } catch (err) {
+    console.log(err.message);
     res.status(500).send(err.message);
   }
 };
