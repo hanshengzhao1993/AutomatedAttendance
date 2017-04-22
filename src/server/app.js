@@ -14,7 +14,6 @@ import studentHelpers from './db/ModelHelpers/studentHelpers';
 import classHelpers from './db/ModelHelpers/classHelpers';
 import fileUpload from 'express-fileupload';
 import userHelpers from './db/ModelHelpers/userHelpers';
-import twilio from './twilio/twilioHelper';
 import mailGun from './mailgun/mailGunHelpers';
 import Attendance from './db/ModelHelpers/attendanceHelpers';
 
@@ -88,7 +87,7 @@ app.get('/allUsers', searchHelpers.getAllUsernames);
 /**** Twillio ****/
 /*****************/
 
-app.post('/twilioMessage', twilio.twilioMessage);
+// no more twillio
 
 /*****************/
 /**** MailGun ****/
