@@ -72,7 +72,7 @@ export default class CameraPage extends React.Component {
           //stop taking pictures of the camera
           clearInterval(startCam);
         };
-      }, 3000);
+      }, 3000)
     })
   }
 
