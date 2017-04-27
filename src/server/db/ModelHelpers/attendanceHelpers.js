@@ -33,7 +33,7 @@ exports.storeRecords = async ({ body }, res) => {
     const tardyInterval = setInterval(() => {
       const currentTime = moment();
       const tardyEmail = moment(time).add(30, 'minute');
-      if( currentTime.isAfter(tardyEmail)) {
+      if (currentTime.isAfter(tardyEmail)) {
         Attendance.emailLateStudents();
         clearInterval(tardyInterval);
       }
